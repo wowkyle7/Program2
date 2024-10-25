@@ -1,5 +1,5 @@
-#ifndef OTHERCLASS_H
-#define OTHERCLASS_H
+#ifndef DATA_H
+#define DATA_H
 
 #include <iostream>
 #include <stack>
