@@ -11,7 +11,10 @@ class Data{
         Data* next;
 
 public:
-    Data(T val) : value(val), next(nullptr) {}
+    Data(T val){
+        value = val;
+        next = nullptr;
+    }
 
     Data() : value(T()), next(nullptr) {}
 
