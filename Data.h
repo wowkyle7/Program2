@@ -8,15 +8,15 @@
 template <typename T>
 class Data{
     public:
-        T Value;
+        T value;
 
     private:
-        getValue(){
-            return Value;
+        T getValue(){
+            return value;
         }
 
         void setValue(T givenValue){
-            value =givenValue;
+            value = givenValue;
         }
 };
 
