@@ -15,7 +15,9 @@ int main(){
     cout << "\nWelcome to the Diddy Party!" << endl;
 
     cout << "\nEnter information for first guest" << endl;
-    temp_data_guest.setValue(getGuestInfo());
+    Guest testGuest = getGuestInfo();
+    cout << "Thank you for entering info about guest " << testGuest.getName() << endl;
+    temp_data_guest.setValue(testGuest);
     
     cout << "before append";
     party_list.appendNode(temp_data_guest); // can also load info from file
@@ -107,6 +109,7 @@ Guest getGuestInfo(){
     int age;
     int times_attended;
     float floz_bb_oil_used;
+    Guest newGuest;
 
     cout << "\nEnter guest name: ";
     getline(cin >> ws, name);
@@ -117,5 +120,6 @@ Guest getGuestInfo(){
     cout << "\nEnter amount of baby oil guest has used (fluid oz): ";
     cin >> floz_bb_oil_used;
 
-    return Guest(name, age, times_attended, floz_bb_oil_used);
+    newGuest = Guest(name, age, times_attended, floz_bb_oil_used); // Fixed crashing here
+    return newGuest;
 }

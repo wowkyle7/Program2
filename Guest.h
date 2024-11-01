@@ -39,17 +39,17 @@ Guest::Guest(){
 }
 
 Guest::Guest(string n, int a, int t, float b){
-    name = &n;
-    age = &a;
-    times_attended = &t;
-    floz_bb_oil_used = &b;
+    name = new string(n);
+    age = new int(a);
+    times_attended = new int(t);
+    floz_bb_oil_used = new float(b);
 }
 
 Guest::~Guest(){
-    delete [] name;
-    delete [] age;
-    delete [] times_attended;
-    delete [] floz_bb_oil_used;
+    delete name;
+    delete age;
+    delete times_attended;
+    delete floz_bb_oil_used;
 }
 
 string Guest::getName(){
