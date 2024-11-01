@@ -7,17 +7,29 @@
 
 template <typename T>
 class Data{
-    public:
         T value;
+        Data* next;
 
-    private:
-        T getValue(){
-            return value;
-        }
+public:
+    Data(T val) : value(val), next(nullptr) {}
 
-        void setValue(T givenValue){
-            value = givenValue;
-        }
+    Data() : value(T()), next(nullptr) {}
+
+    T getValue(){
+        return value;
+    }
+
+    void setValue(T givenValue){
+        value = givenValue;
+    }
+
+    Data* getNext(){
+        return next;
+    }
+
+    void setNext(Data* n){
+        next = n;
+    }
 };
 
 #endif
