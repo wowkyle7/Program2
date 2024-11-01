@@ -8,12 +8,12 @@
 template <typename T>
 class Data{
         T value;
-        Data* nextData;
+        Data* next;
 
 public:
-    Data(T val) : value(val), nextData(nullptr) {}
+    Data(T val) : value(val), next(nullptr) {}
 
-    Data() : value(T()), nextData(nullptr) {}
+    Data() : value(T()), next(nullptr) {}
 
     T getValue(){
         return value;
@@ -24,11 +24,11 @@ public:
     }
 
     Data* getNext(){
-        return nextData;
+        return next;
     }
 
-    void setNext(Data* next){
-        nextData = next;
+    void setNext(Data* n){
+        next = n;
     }
 };
 
