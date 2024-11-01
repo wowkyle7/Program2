@@ -7,10 +7,11 @@
 
 template <typename T>
 class Data{
-    public:
         T value;
+        Data* nextData;
 
-    private:
+        Data(T val) : value(val), next(nullptr) {};
+    public:
         T getValue(){
             return value;
         }
