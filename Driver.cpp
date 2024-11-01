@@ -7,7 +7,7 @@ Guest getGuestInfo();
 
 int main(){
     List<Guest> party_list; // need to fix
-    Data<Guest> temp_data_guest; // need to fix
+    // Data<Guest> temp_data_guest; // need to fix
     Guest temp_guest;
     int menuChoice;
     int list_location_choice;
@@ -15,10 +15,10 @@ int main(){
     cout << "\nWelcome to the Diddy Party!" << endl;
 
     cout << "\nEnter information for first guest" << endl;
-    temp_data_guest.setValue(getGuestInfo());
+    temp_guest = getGuestInfo();
     
     cout << "before append";
-    party_list.appendNode(temp_data_guest); // can also load info from file
+    party_list.appendNode(temp_guest); // can also load info from file
     cout << "after append";
 
     do{
@@ -49,14 +49,14 @@ int main(){
                 }while(list_location_choice != 1 || list_location_choice != 2);
 
                 temp_guest = getGuestInfo();
-                temp_data_guest.setValue(temp_guest);
+                // temp_data_guest.setValue(temp_guest);
                 
                 if(list_location_choice == 1){ // Add guest to front of list
-                    party_list.pushNode(temp_data_guest);
+                    party_list.pushNode(temp_guest);
                     cout << endl << temp_guest.getName() << " has been added to front of list!" << endl;
                 }
                 else{ // Add guest to back of list
-                    party_list.appendNode(temp_data_guest);
+                    party_list.appendNode(temp_guest);
                     cout << endl << temp_guest.getName() << " has been added to back of list!" << endl;
                 }
                 
@@ -103,6 +103,7 @@ int main(){
 }
 
 Guest getGuestInfo(){
+    Guest g;
     string name;
     int age;
     int times_attended;
@@ -117,5 +118,6 @@ Guest getGuestInfo(){
     cout << "\nEnter amount of baby oil guest has used (fluid oz): ";
     cin >> floz_bb_oil_used;
 
-    return Guest(name, age, times_attended, floz_bb_oil_used);
+    g = Guest(name, age, times_attended, floz_bb_oil_used);
+    return g;
 }
