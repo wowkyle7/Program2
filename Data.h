@@ -10,15 +10,26 @@ class Data{
         T value;
         Data* nextData;
 
-        Data(T val) : value(val), next(nullptr) {};
-    public:
-        T getValue(){
-            return value;
-        }
+public:
+    Data(T val) : value(val), nextData(nullptr) {}
 
-        void setValue(T givenValue){
-            value = givenValue;
-        }
+    Data() : value(T()), nextData(nullptr) {}
+
+    T getValue(){
+        return value;
+    }
+
+    void setValue(T givenValue){
+        value = givenValue;
+    }
+
+    Data* getNext(){
+        return nextData;
+    }
+
+    void setNext(Data* next){
+        nextData = next;
+    }
 };
 
 #endif

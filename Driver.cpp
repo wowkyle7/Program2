@@ -1,5 +1,6 @@
 #include <iostream>
 #include "linkedlist.h"
+
 using namespace std;
 
 Guest getGuestInfo();
@@ -14,7 +15,11 @@ int main(){
     cout << "\nWelcome to the Diddy Party!" << endl;
 
     cout << "\nEnter information for first guest" << endl;
-    party_list.appendNode(getGuestInfo()); // can also load info from file
+    temp_data_guest.setValue(getGuestInfo());
+    
+    cout << "before append";
+    party_list.appendNode(temp_data_guest); // can also load info from file
+    cout << "after append";
 
     do{
         // print menu
@@ -30,12 +35,13 @@ int main(){
 
         switch(menuChoice){
             default: 
-                cout << "Invalid input!";
+                cout << "Invalid input!" << endl;
                 break;
 
-            case 1: // push to top
+            case 1: // ADD TO LIST
                 list_location_choice = 0;
                 do{
+                    cout << endl;
                     cout << "1. Add guest to front of list" << endl;
                     cout << "2. Add guest to back of list" << endl;
                     cout << "Enter choice: ";
@@ -45,23 +51,37 @@ int main(){
                 temp_guest = getGuestInfo();
                 temp_data_guest.setValue(temp_guest);
                 
-                if(list_location_choice == 1){
+                if(list_location_choice == 1){ // Add guest to front of list
                     party_list.pushNode(temp_data_guest);
-                    cout << endl << temp_guest.getName() << " has been added to front of list!";
+                    cout << endl << temp_guest.getName() << " has been added to front of list!" << endl;
                 }
-                else{
+                else{ // Add guest to back of list
                     party_list.appendNode(temp_data_guest);
-                    cout << endl << temp_guest.getName() << " has been added to back of list!";
+                    cout << endl << temp_guest.getName() << " has been added to back of list!" << endl;
                 }
                 
                 break;
 
             case 2:
-                /*
-                WILL EITHER GIVE OPTION TO POP FRONT / BACK
-                OR
-                WILL PROMPT USER FOR POSITION IN LIST TO DELETE NODE
-                */
+                list_location_choice = 0;
+                do{
+                    cout << endl;
+                    cout << "1. Remove guest from front of list" << endl;
+                    cout << "2. Remove guest from back of list" << endl;
+                    cout << "Enter choice: ";
+                    cin >> list_location_choice;
+                }while(list_location_choice != 1 || list_location_choice != 2);
+
+                if(list_location_choice == 1){ // Remove guest from front of list
+                     // pop back
+                    cout << endl /*<< guest name */ << " has been deleted from front of list!" << endl;
+                }
+                else{ // Remove guest from back of list
+                    // pop back
+                    cout << endl /*<< guest name*/ << " has been deleted from back of list!" << endl;
+                }
+                
+
                 break;
 
             case 3:

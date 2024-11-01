@@ -6,35 +6,36 @@
 #include "Data.h"
 
 using namespace std;
-
-class List
-{
-public:
-    template <typename T>
-    struct ListNode // https://stackoverflow.com/questions/15283195/argument-list-for-class-template-is-missing
+template<typename T>
+class List{
+private:
+    struct Node // https://stackoverflow.com/questions/15283195/argument-list-for-class-template-is-missing
     {
         Data<T> nodeValue;
-        Data<T>* nodeValue_Head;
-        Data<T>* Tail;
+        Node* next;
 
-        ListNode(T val) : nodeValue(val), nodeValue_Head(nullptr), Tail(nullptr) {};
+        Node(const Data<T>& val) : nodeValue(val), next(NULL) {}
     };
 
-    int numNodes; // !!!!!!REMOVE IF NOT WANTING TO USE AT END!!!!!!
+    Node* Head;
+    Node* Tail;
+    int numNodes;  // !!!!!!REMOVE IF NOT WANTING TO USE AT END!!!!!!
     
+public:
+    //Constructor
+    List() : Head(NULL), Tail(NULL), numNodes(0) {}
 
-
-    // Constructor  
-    List()
-    {
-        typedef Data<T> nodeValue_Head;
-        typedef Data<T> nodeValue
-        Tail = NULL;
-        numNodes = 0;
+    ~List(){
+        Node* current = Head;
+        while (current){
+            Node* nextNode = current->next;
+            delete current;
+            current = nextNode;
+        }
+        cout << "\nAll Nodes Removed" << endl;
     }
-
     // Mutators
-    void appendNode(Data<Guest>);
+    void appendNode(const Data<Guest>& guest);
     //void insertNode(Data<Guest>);
     void deleteNode(Data<Guest>);
     void pushNode(Data<Guest>);
@@ -45,56 +46,44 @@ public:
 
     // Overloaded
     friend ostream& operator<<(ostream& stream, List& val) {
-        stream << "Guest Name: " << val.Head->nodeValue.getValue().getName() << endl;
+        Node* current = val.Head;
+        while (current){
+            stream << current->nodeValue.getValue().getName() << " -> ";
+            current = current -> next;
+        }
         
         stream << "Used << operator in LinkedList Class" << endl; // Change to be whatever we need it to do
-    };
-
-    // Destructor
-    template <typename T>
-    ~List()
+        return stream;
+    }
+};
+    template<typename T>
+    void List<T>::appendNode(const Data<Guest>& guest) // Bottom of list
     {
-        typedef Data<T> *nodePointer;
-        typedef Date<T> *nextNode;
+        Node *newNode;
+        newNode = new Node(guest);
 
-        nodePointer = Head;
-
-        while (nodePointer != NULL)
-        {
-            nextNode = nodePointer->next;
-            delete nodePointer;
-            nodePointer = nextNode;
-        };
-
-        cout << "\nAll Nodes Removed" << endl;
+        if (!Head)
+        { // No head, default to both
+            Head = newNode;
+            Tail = newNode;
+        }
+        else
+        { // Otherwise push towards end
+            Tail->next = newNode;
+            Tail = newNode;
+        }
+        numNodes++;
     };
-};
 
-void List::appendNode(Data<Guest> guest) // Bottom of list
+/*
+void List::insertNode(Data<Guest> guest)
 {
-    ListNode *newNode;
-    newNode = new ListNode(guest);
-
-    if (!Head)
-    { // No head, default to both
-        Head = newNode;
-        Tail = newNode;
-    }
-    else
-    { // Otherwise push towards end
-        Tail->next = newNode;
-        Tail = newNode;
-    }
-};
-
-/*void List::insertNode(Data<Guest> guest)
-{
-    ListNode *newNode;
-    ListNode *nodePointer;
-    ListNode *prevNode;
+    nodeValue *newNode;
+    nodeValue *nodePointer;
+    nodeValue *prevNode;
 
     // New node with txt parameter
-    newNode = new ListNode(guest);
+    newNode = new nodeValue(guest);
 
     if (!Head)
     { // No head, make new node head
@@ -126,11 +115,11 @@ void List::appendNode(Data<Guest> guest) // Bottom of list
         };
     }
 };*/
-
-void List::deleteNode(Data<Guest> guest)
+template<typename T>
+void List<T>::deleteNode(Data<Guest> guest)
 {
-    ListNode *nodePointer;
-    ListNode *prevNode;
+    Node *nodePointer;
+    Node *prevNode;
 
     // Is List empty?
     if (!Head)
@@ -170,9 +159,10 @@ void List::deleteNode(Data<Guest> guest)
     }
 };
 
-void List::pushNode(Data<Guest> newGuest) { // Top of list
-    ListNode *nodePtr;
-    nodePtr = new ListNode(newGuest);
+template<typename T>
+void List<T>::pushNode(Data<Guest> newGuest) { // Top of list
+    Node *nodePtr;
+    nodePtr = new Node(newGuest);
     nodePtr->nodeValue = newGuest;
 
     if (!Head) {
@@ -185,8 +175,9 @@ void List::pushNode(Data<Guest> newGuest) { // Top of list
     numNodes++;
 }
 
-void List::popNode(Data<Guest>& newGuest) {
-    ListNode *ptr;
+template<typename T>
+void List<T>::popNode(Data<Guest>& newGuest) {
+    Node *ptr;
 
     if (Head) {
         numNodes--;
@@ -204,9 +195,10 @@ void List::popNode(Data<Guest>& newGuest) {
 }
 
 // Accessors
-void List::displayList()
+template<typename T>
+void List<T>::displayList()
 {
-    ListNode *nodePointer;
+    Node *nodePointer;
     nodePointer = Head;
 
     while (nodePointer)
