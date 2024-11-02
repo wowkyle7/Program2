@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include <iostream>
+#include <iomanip>
 #include "Guest.h"
 #include "Data.h"
 
@@ -34,32 +35,28 @@ public:
     void appendNode(T);
     // void deleteNode(T);
     void pushNode(T);
-    void popNode(T);
+    void popNode();
 
     // Accessors
     void displayList();
-
-    // Overloaded
-    friend ostream& operator<<(ostream& stream, List& val) {
-        Data<T>* current = val.Head;
-        while (current){
-            stream << current->nodeValue.getValue().getName() << " -> ";
-            current = current -> next;
-        }
-        
-        stream << "Used << operator in LinkedList Class" << endl; // Change to be whatever we need it to do
-        return stream;
-    }
 };
 
 template<typename T>
 void List<T>::appendNode(T guest) // Bottom of list
 {
-    Data<T>* newNode;
-    newNode = new Data<T>(guest);
+    Data<T>* newNode = new Data<T>(guest);
+    newNode->setNext(nullptr);
 
-    newNode->setNext(Head);
-    Head = newNode;
+    if (Head == nullptr) { // List is empty, set head as new value
+        Head = newNode;
+    } else {
+        Data<T>* currentNode = Head;
+        while (currentNode->getNext() != nullptr) { // Loop until next node is null
+            currentNode = currentNode->getNext();
+        };
+
+        currentNode->setNext(newNode);
+    }
 
     numNodes++;
 };
@@ -125,20 +122,20 @@ void List<T>::pushNode(T newGuest) { // Top of list
 }
 
 template<typename T>
-void List<T>::popNode(T newGuest) {
+void List<T>::popNode() {
     Data<T> *ptr;
 
     if (Head) {
         numNodes--;
         ptr = Head;
 
-        if (Head->next != NULL) {
-            Head = Head->next;
+        if (Head->getNext() != NULL) {
+            //cout << Head->getValue().getName() << endl;
+            Head = Head->getNext();
         } else {
-            Head = NULL;
+            Head = nullptr;
         }
 
-        newGuest = ptr->nodeValue;
         delete ptr;
     };
 }
@@ -149,16 +146,28 @@ void List<T>::displayList()
 {
     Data<T> *nodePointer;
     nodePointer = Head;
+    int count = 1;
 
-    while (nodePointer)
-    {
-        Guest guest = nodePointer->nodeValue.getValue();
-        // temp solution for output:
-        cout << nodePointer << endl;
+    cout << endl << endl;
 
-        // Goal is to use << for nodeValue
-        nodePointer = nodePointer->next;
-    };
+    if (nodePointer == nullptr) {
+        cout << "There are no guests to display!" << endl << endl;
+    } else {
+        while (nodePointer != nullptr) {
+
+            Guest guest = nodePointer->getValue();
+            cout << "Guest " << count << endl;
+            cout << left << setw(26) << "    Name: " << guest.getName() << endl;
+            cout << left << setw(26) << "    Age: " << guest.getAge() << endl;
+            cout << left << setw(26) << "    Attendance: " << guest.getTimesAttended() << endl;
+            cout << left << setw(10) << "    Fl. Oz Baby Oil Used: " << guest.getBbOilUsed() << endl;
+            
+            cout << "-------------------------------------" << endl << endl;
+            count++;
+
+            nodePointer = nodePointer->getNext();
+        };
+    }
 };
 
 

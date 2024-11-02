@@ -9,30 +9,35 @@ template <typename T>
 class Data{
         T value;
         Data* next;
+    public:
+        Data(T val){
+            value = val;
+            next = nullptr;
+        }
 
-public:
-    Data(T val){
-        value = val;
-        next = nullptr;
-    }
+        Data() : value(T()), next(nullptr) {}
 
-    Data() : value(T()), next(nullptr) {}
+        T getValue(){
+            return value;
+        }
 
-    T getValue(){
-        return value;
-    }
+        void setValue(T givenValue){
+            value = givenValue;
+        }
 
-    void setValue(T givenValue){
-        value = givenValue;
-    }
+        Data* getNext(){
+            return next;
+        }
 
-    Data* getNext(){
-        return next;
-    }
+        void setNext(Data* n){
+            next = n;
+        }
 
-    void setNext(Data* n){
-        next = n;
-    }
+        // Overloaded
+        friend ostream& operator<<(ostream& stream, const Data& val) {
+            stream << val.getValue();
+            return stream;
+        }
 };
 
 #endif

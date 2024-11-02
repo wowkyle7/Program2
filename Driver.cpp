@@ -17,11 +17,9 @@ int main(){
     cout << "\nEnter information for first guest" << endl;
     temp_guest = getGuestInfo();
     
-    cout << "before append";
     party_list.appendNode(temp_guest); // can also load info from file
-    cout << "after append";
 
-    do{
+    do {
         // print menu
         cout << endl << endl << string(20, '*') << " MENU " << string(20, '*') << endl;
         cout << "1. Add guest to list" << endl;
@@ -46,10 +44,10 @@ int main(){
                     cout << "2. Add guest to back of list" << endl;
                     cout << "Enter choice: ";
                     cin >> list_location_choice;
-                }while(list_location_choice != 1 || list_location_choice != 2);
+                    cout << "Choice input: " << list_location_choice << endl;
+                }while(list_location_choice < 1 || list_location_choice > 2);
 
                 temp_guest = getGuestInfo();
-                // temp_data_guest.setValue(temp_guest);
                 
                 if(list_location_choice == 1){ // Add guest to front of list
                     party_list.pushNode(temp_guest);
@@ -70,10 +68,10 @@ int main(){
                     cout << "2. Remove guest from back of list" << endl;
                     cout << "Enter choice: ";
                     cin >> list_location_choice;
-                }while(list_location_choice != 1 || list_location_choice != 2);
+                } while(list_location_choice < 1 || list_location_choice > 2);
 
                 if(list_location_choice == 1){ // Remove guest from front of list
-                     // pop back
+                    party_list.popNode();
                     cout << endl /*<< guest name */ << " has been deleted from front of list!" << endl;
                 }
                 else{ // Remove guest from back of list
@@ -88,6 +86,7 @@ int main(){
                 /*
                 DISPLAY ALL VALUES IN LIST
                 */
+                party_list.displayList();
                 break;
 
             case 4:
