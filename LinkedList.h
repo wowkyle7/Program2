@@ -2,137 +2,172 @@
 #define LIST_H
 
 #include <iostream>
+#include <iomanip>
+#include "Guest.h"
+#include "Data.h"
 
 using namespace std;
+template<typename T>
+class List{
+private:
+    Data<T>* Head;
+    Data<T>* Tail;
 
-class List {
-    public:
-        struct ListNode {
-            string strNode;
-            ListNode *next;
+    int numNodes;  // !!!!!!REMOVE IF NOT WANTING TO USE AT END!!!!!!
+    
+public:
+    //Constructor
+    List(){
+        Head = nullptr;
+        Tail = nullptr;
+        numNodes = 0;}
 
-            ListNode(string newStr) {
-                strNode = newStr;
-                next = NULL;
-            };
-        };
-
-        ListNode *Head;
-        ListNode *Tail;
-
-        // Mutators
-        void appendNode(string txt) {
-            ListNode *newNode;
-            newNode = new ListNode(txt);
-
-            if (!Head) { // No head, default to both
-                Head = newNode;
-                Tail = newNode;
-            } else { // Otherwise push towards end
-                Tail->next = newNode;
-                Tail = newNode;
-            }
-        };
-
-        void insertNode(string txt) {
-            ListNode *newNode;
-            ListNode *nodePointer;
-            ListNode *prevNode;
-
-            // New node with txt parameter
-            newNode = new ListNode(txt);
-
-            if (!Head) { // No head, make new node head
-                Head = newNode;
-                newNode->next = NULL;
-            } else { 
-                nodePointer = Head;
-                prevNode = NULL;
-
-                // if nodePointer != end & node value is less than parameter, skip
-                while (nodePointer != NULL && nodePointer->strNode < txt) {
-                    prevNode = nodePointer;
-                    nodePointer = nodePointer->next;
-                };
-
-                // Is new node the start?
-                if (prevNode == NULL) {
-                    Head = newNode;
-                    newNode->next = nodePointer;
-                } else {
-                    prevNode->next = newNode;
-                    newNode->next = nodePointer;
-                };
-            }
-        };
-        void deleteNode(string txt) {
-            ListNode *nodePointer;
-            ListNode *prevNode;
-
-            // Is List empty?
-            if (!Head) {
-                return;
-            };
-
-            // Is value to delete the head?
-            if (Head->strNode == txt) {
-                nodePointer = Head->next;
-                delete Head;
-                Head = nodePointer;
-            } else { // It's not..
-                nodePointer = Head;
-
-                // NodePointer != end and val of it isn't the val to delete
-                while (nodePointer != NULL && nodePointer->strNode != txt) {
-                    prevNode = nodePointer;
-                    nodePointer = nodePointer->next;
-                };
-
-                // does nodePointer even have a value
-                if (nodePointer) {
-                    if (nodePointer == Tail) {
-                        Tail = prevNode;
-                    };
-
-                    prevNode->next = nodePointer->next;
-                    delete nodePointer;
-                }
-            }
-        };
-
-        // Accessors
-        void displayList() {
-            ListNode *nodePointer;
-            nodePointer = Head;
-
-            while (nodePointer) {
-                cout << nodePointer->strNode << endl;
-                nodePointer = nodePointer->next;
-            };
-        };
-
-    // Constructor
-    List() {
-        Head = NULL;
-        Tail = NULL;
-    };
-
-    // Destructor
-    ~List() {
-        ListNode* nodePointer;
-        ListNode* nextNode;
-
-        nodePointer = Head;
-
-        while (nodePointer != NULL) {
-            nextNode = nodePointer->next;
-            delete nodePointer;
-            nodePointer = nextNode;
-        };
-
+    ~List(){
+        Data<T>* current = Head;
+        while (current){
+            Data<T>* nextNode = current->getNext();
+            delete current;
+            current = nextNode;
+        }
         cout << "\nAll Nodes Removed" << endl;
-    };
+    }
+    // Mutators
+    void appendNode(T);
+    // void deleteNode(T);
+    void pushNode(T);
+    void popNode();
 
+    // Accessors
+    void displayList();
+};
+
+template<typename T>
+void List<T>::appendNode(T guest) // Bottom of list
+{
+    Data<T>* newNode = new Data<T>(guest);
+    newNode->setNext(nullptr);
+
+    if (Head == nullptr) { // List is empty, set head as new value
+        Head = newNode;
+    } else {
+        Data<T>* currentNode = Head;
+        while (currentNode->getNext() != nullptr) { // Loop until next node is null
+            currentNode = currentNode->getNext();
+        };
+
+        currentNode->setNext(newNode);
+    }
+
+    numNodes++;
+};
+
+// template<typename T>
+// void List<T>::deleteNode(T guest)
+// {
+//     Data<T> *nodePointer;
+//     Data<T> *prevNode;
+
+//     // Is List empty?
+//     if (!Head)
+//     {
+//         return;
+//     }
+
+//     // Is value to delete the head?
+//     if (Head->nodeValue.getValue().getName() == guest.getValue().getName())
+//     {
+//         nodePointer = Head->next;
+//         delete Head;
+//         Head = nodePointer;
+//     }
+//     else
+//     { // It's not..
+//         nodePointer = Head;
+
+//         // NodePointer != end and val of it isn't the val to delete
+//         while (nodePointer != NULL && nodePointer->nodeValue.getValue().getName() != guest.getValue().getName())
+//         {
+//             prevNode = nodePointer;
+//             nodePointer = nodePointer->next;
+//         }
+
+//         // does nodePointer even have a value
+//         if (nodePointer)
+//         {
+//             if (nodePointer == Tail)
+//             {
+//                 Tail = prevNode;
+//             };
+
+//             prevNode->next = nodePointer->next;
+//             delete nodePointer;
+//         }
+//     }
+// };
+
+template<typename T>
+void List<T>::pushNode(T newGuest) { // Top of list
+    Data<T> *nodePtr;
+    nodePtr = new Data<T>(newGuest);
+    nodePtr->setValue(newGuest);
+
+    if (!Head) {
+        nodePtr->setNext(NULL);
+    } else {
+        nodePtr->setNext(Head);
+    }
+
+    Head = nodePtr;
+    numNodes++;
+}
+
+template<typename T>
+void List<T>::popNode() {
+    Data<T> *ptr;
+
+    if (Head) {
+        numNodes--;
+        ptr = Head;
+
+        if (Head->getNext() != NULL) {
+            //cout << Head->getValue().getName() << endl;
+            Head = Head->getNext();
+        } else {
+            Head = nullptr;
+        }
+
+        delete ptr;
+    };
+}
+
+// Accessors
+template<typename T>
+void List<T>::displayList()
+{
+    Data<T> *nodePointer;
+    nodePointer = Head;
+    int count = 1;
+
+    cout << endl << endl;
+
+    if (nodePointer == nullptr) {
+        cout << "There are no guests to display!" << endl << endl;
+    } else {
+        while (nodePointer != nullptr) {
+
+            Guest guest = nodePointer->getValue();
+            cout << "Guest " << count << endl;
+            cout << left << setw(26) << "    Name: " << guest.getName() << endl;
+            cout << left << setw(26) << "    Age: " << guest.getAge() << endl;
+            cout << left << setw(26) << "    Attendance: " << guest.getTimesAttended() << endl;
+            cout << left << setw(10) << "    Fl. Oz Baby Oil Used: " << guest.getBbOilUsed() << endl;
+            
+            cout << "-------------------------------------" << endl << endl;
+            count++;
+
+            nodePointer = nodePointer->getNext();
+        };
+    }
 };
 
 
