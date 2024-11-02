@@ -2,163 +2,137 @@
 #define LIST_H
 
 #include <iostream>
-#include "Guest.h"
-#include "Data.h"
 
 using namespace std;
-template<typename T>
-class List{
-private:
-    Data<T>* Head;
-    Data<T>* Tail;
 
-    int numNodes;  // !!!!!!REMOVE IF NOT WANTING TO USE AT END!!!!!!
-    
-public:
-    //Constructor
-    List(){
-        Head = nullptr;
-        Tail = nullptr;
-        numNodes = 0;}
+class List {
+    public:
+        struct ListNode {
+            string strNode;
+            ListNode *next;
 
-    ~List(){
-        Data<T>* current = Head;
-        while (current){
-            Data<T>* nextNode = current->getNext();
-            delete current;
-            current = nextNode;
-        }
+            ListNode(string newStr) {
+                strNode = newStr;
+                next = NULL;
+            };
+        };
+
+        ListNode *Head;
+        ListNode *Tail;
+
+        // Mutators
+        void appendNode(string txt) {
+            ListNode *newNode;
+            newNode = new ListNode(txt);
+
+            if (!Head) { // No head, default to both
+                Head = newNode;
+                Tail = newNode;
+            } else { // Otherwise push towards end
+                Tail->next = newNode;
+                Tail = newNode;
+            }
+        };
+
+        void insertNode(string txt) {
+            ListNode *newNode;
+            ListNode *nodePointer;
+            ListNode *prevNode;
+
+            // New node with txt parameter
+            newNode = new ListNode(txt);
+
+            if (!Head) { // No head, make new node head
+                Head = newNode;
+                newNode->next = NULL;
+            } else { 
+                nodePointer = Head;
+                prevNode = NULL;
+
+                // if nodePointer != end & node value is less than parameter, skip
+                while (nodePointer != NULL && nodePointer->strNode < txt) {
+                    prevNode = nodePointer;
+                    nodePointer = nodePointer->next;
+                };
+
+                // Is new node the start?
+                if (prevNode == NULL) {
+                    Head = newNode;
+                    newNode->next = nodePointer;
+                } else {
+                    prevNode->next = newNode;
+                    newNode->next = nodePointer;
+                };
+            }
+        };
+        void deleteNode(string txt) {
+            ListNode *nodePointer;
+            ListNode *prevNode;
+
+            // Is List empty?
+            if (!Head) {
+                return;
+            };
+
+            // Is value to delete the head?
+            if (Head->strNode == txt) {
+                nodePointer = Head->next;
+                delete Head;
+                Head = nodePointer;
+            } else { // It's not..
+                nodePointer = Head;
+
+                // NodePointer != end and val of it isn't the val to delete
+                while (nodePointer != NULL && nodePointer->strNode != txt) {
+                    prevNode = nodePointer;
+                    nodePointer = nodePointer->next;
+                };
+
+                // does nodePointer even have a value
+                if (nodePointer) {
+                    if (nodePointer == Tail) {
+                        Tail = prevNode;
+                    };
+
+                    prevNode->next = nodePointer->next;
+                    delete nodePointer;
+                }
+            }
+        };
+
+        // Accessors
+        void displayList() {
+            ListNode *nodePointer;
+            nodePointer = Head;
+
+            while (nodePointer) {
+                cout << nodePointer->strNode << endl;
+                nodePointer = nodePointer->next;
+            };
+        };
+
+    // Constructor
+    List() {
+        Head = NULL;
+        Tail = NULL;
+    };
+
+    // Destructor
+    ~List() {
+        ListNode* nodePointer;
+        ListNode* nextNode;
+
+        nodePointer = Head;
+
+        while (nodePointer != NULL) {
+            nextNode = nodePointer->next;
+            delete nodePointer;
+            nodePointer = nextNode;
+        };
+
         cout << "\nAll Nodes Removed" << endl;
-    }
-    // Mutators
-    void appendNode(T);
-    // void deleteNode(T);
-    void pushNode(T);
-    void popNode(T);
-
-    // Accessors
-    void displayList();
-
-    // Overloaded
-    friend ostream& operator<<(ostream& stream, List& val) {
-        Data<T>* current = val.Head;
-        while (current){
-            stream << current->nodeValue.getValue().getName() << " -> ";
-            current = current -> next;
-        }
-        
-        stream << "Used << operator in LinkedList Class" << endl; // Change to be whatever we need it to do
-        return stream;
-    }
-};
-
-template<typename T>
-void List<T>::appendNode(T guest) // Bottom of list
-{
-    Data<T>* newNode;
-    newNode = new Data<T>(guest);
-
-    newNode->setNext(Head);
-    Head = newNode;
-
-    numNodes++;
-};
-
-// template<typename T>
-// void List<T>::deleteNode(T guest)
-// {
-//     Data<T> *nodePointer;
-//     Data<T> *prevNode;
-
-//     // Is List empty?
-//     if (!Head)
-//     {
-//         return;
-//     }
-
-//     // Is value to delete the head?
-//     if (Head->nodeValue.getValue().getName() == guest.getValue().getName())
-//     {
-//         nodePointer = Head->next;
-//         delete Head;
-//         Head = nodePointer;
-//     }
-//     else
-//     { // It's not..
-//         nodePointer = Head;
-
-//         // NodePointer != end and val of it isn't the val to delete
-//         while (nodePointer != NULL && nodePointer->nodeValue.getValue().getName() != guest.getValue().getName())
-//         {
-//             prevNode = nodePointer;
-//             nodePointer = nodePointer->next;
-//         }
-
-//         // does nodePointer even have a value
-//         if (nodePointer)
-//         {
-//             if (nodePointer == Tail)
-//             {
-//                 Tail = prevNode;
-//             };
-
-//             prevNode->next = nodePointer->next;
-//             delete nodePointer;
-//         }
-//     }
-// };
-
-template<typename T>
-void List<T>::pushNode(T newGuest) { // Top of list
-    Data<T> *nodePtr;
-    nodePtr = new Data<T>(newGuest);
-    nodePtr->setValue(newGuest);
-
-    if (!Head) {
-        nodePtr->setNext(NULL);
-    } else {
-        nodePtr->setNext(Head);
-    }
-
-    Head = nodePtr;
-    numNodes++;
-}
-
-template<typename T>
-void List<T>::popNode(T newGuest) {
-    Data<T> *ptr;
-
-    if (Head) {
-        numNodes--;
-        ptr = Head;
-
-        if (Head->next != NULL) {
-            Head = Head->next;
-        } else {
-            Head = NULL;
-        }
-
-        newGuest = ptr->nodeValue;
-        delete ptr;
     };
-}
 
-// Accessors
-template<typename T>
-void List<T>::displayList()
-{
-    Data<T> *nodePointer;
-    nodePointer = Head;
-
-    while (nodePointer)
-    {
-        Guest guest = nodePointer->nodeValue.getValue();
-        // temp solution for output:
-        cout << nodePointer << endl;
-
-        // Goal is to use << for nodeValue
-        nodePointer = nodePointer->next;
-    };
 };
 
 
