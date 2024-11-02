@@ -1,6 +1,6 @@
 /*
-    AUTHOR: Kyle Schultz
-    FILE:   Guest Class Header
+    AUTHOR:     Kyle Schultz
+    PURPOSE:    Guest Class File
 */
 #ifndef GUEST_H
 #define GUEST_H

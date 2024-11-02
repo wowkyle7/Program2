@@ -1,3 +1,7 @@
+/*
+    Author:     Ryan Marasigan
+    Purpose:    Template Helper Class 
+*/
 #ifndef DATA_H
 #define DATA_H
 
@@ -15,7 +19,14 @@ class Data{
             next = nullptr;
         }
 
-        Data() : value(T()), next(nullptr) {}
+        Data(){
+            value = T();
+            next = nullptr;
+        }
+
+        ~Data(){
+            delete next;
+        }
 
         T getValue(){
             return value;
