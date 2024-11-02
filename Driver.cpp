@@ -33,10 +33,6 @@ int main(){
         cin >> menuChoice;
 
         switch(menuChoice){
-            default: 
-                cout << "Invalid input!" << endl;
-                break;
-
             case 1: // ADD TO LIST
                 list_location_choice = 0;
                 // Checks if the list is empty, since it's redundant to prompt user for choice to add from front or back of list if it's empty
