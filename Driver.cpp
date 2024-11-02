@@ -7,17 +7,11 @@ Guest getGuestInfo();
 
 int main(){
     List<Guest> party_list; // need to fix
-    // Data<Guest> temp_data_guest; // need to fix
     Guest temp_guest;
     int menuChoice;
     int list_location_choice;
 
     cout << "\nWelcome to the Diddy Party!" << endl;
-
-    cout << "\nEnter information for first guest" << endl;
-    temp_guest = getGuestInfo();
-    
-    party_list.appendNode(temp_guest); // can also load info from file
 
     do {
         // print menu
@@ -83,9 +77,6 @@ int main(){
                 break;
 
             case 3:
-                /*
-                DISPLAY ALL VALUES IN LIST
-                */
                 party_list.displayList();
                 break;
 
@@ -102,7 +93,6 @@ int main(){
 }
 
 Guest getGuestInfo(){
-    Guest g;
     string name;
     int age;
     int times_attended;
@@ -118,6 +108,5 @@ Guest getGuestInfo(){
     cout << "\nEnter amount of baby oil guest has used (fluid oz): ";
     cin >> floz_bb_oil_used;
 
-    g = Guest(name, age, times_attended, floz_bb_oil_used);
-    return g;
+    return Guest(name, age, times_attended, floz_bb_oil_used);
 }

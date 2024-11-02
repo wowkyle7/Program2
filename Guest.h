@@ -11,10 +11,10 @@ using namespace std;
 
 class Guest{
     private:
-        string* name;
-        int* age;
-        int* times_attended;
-        float* floz_bb_oil_used;
+        string name;
+        int age;
+        int times_attended;
+        float floz_bb_oil_used;
 
     public:
         // Constructors
@@ -32,40 +32,35 @@ class Guest{
 };
 
 Guest::Guest(){
-    name = nullptr;
-    age = nullptr;
-    times_attended = nullptr;
-    floz_bb_oil_used = nullptr;
+    name = "";
+    age = 0;
+    times_attended = 0;
+    floz_bb_oil_used = 0.0;
 }
 
 Guest::Guest(string n, int a, int t, float b){
-    name = new string(n);
-    age = new int(a);
-    times_attended = new int(t);
-    floz_bb_oil_used = new float(b);
+    name = n;
+    age = a;
+    times_attended = t;
+    floz_bb_oil_used = b;
 }
 
-Guest::~Guest(){
-    delete name;
-    delete age;
-    delete times_attended;
-    delete floz_bb_oil_used;
-}
+Guest::~Guest(){}
 
 string Guest::getName(){
-    return *name;
+    return name;
 }
 
 int Guest::getAge(){
-    return *age;
+    return age;
 }
 
 int Guest::getTimesAttended(){
-    return *times_attended;
+    return times_attended;
 }
 
 float Guest::getBbOilUsed(){
-    return *floz_bb_oil_used;
+    return floz_bb_oil_used;
 }
 
 #endif

@@ -61,50 +61,6 @@ void List<T>::appendNode(T guest) // Bottom of list
     numNodes++;
 };
 
-// template<typename T>
-// void List<T>::deleteNode(T guest)
-// {
-//     Data<T> *nodePointer;
-//     Data<T> *prevNode;
-
-//     // Is List empty?
-//     if (!Head)
-//     {
-//         return;
-//     }
-
-//     // Is value to delete the head?
-//     if (Head->nodeValue.getValue().getName() == guest.getValue().getName())
-//     {
-//         nodePointer = Head->next;
-//         delete Head;
-//         Head = nodePointer;
-//     }
-//     else
-//     { // It's not..
-//         nodePointer = Head;
-
-//         // NodePointer != end and val of it isn't the val to delete
-//         while (nodePointer != NULL && nodePointer->nodeValue.getValue().getName() != guest.getValue().getName())
-//         {
-//             prevNode = nodePointer;
-//             nodePointer = nodePointer->next;
-//         }
-
-//         // does nodePointer even have a value
-//         if (nodePointer)
-//         {
-//             if (nodePointer == Tail)
-//             {
-//                 Tail = prevNode;
-//             };
-
-//             prevNode->next = nodePointer->next;
-//             delete nodePointer;
-//         }
-//     }
-// };
-
 template<typename T>
 void List<T>::pushNode(T newGuest) { // Top of list
     Data<T> *nodePtr;
