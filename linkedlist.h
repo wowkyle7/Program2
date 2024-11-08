@@ -65,12 +65,15 @@ void List<T>::appendNode(T guest) // Bottom of list
         Head = newNode;
         Tail = newNode;
     } else {
-        Data<T>* currentNode = Head;
-        while (currentNode->getNext() != nullptr) { // Loop until next node is null
-            currentNode = currentNode->getNext();
-        }
-        Tail = currentNode;
-        currentNode->setNext(newNode);
+        //Data<T>* currentNode = Head;
+        //while (currentNode->getNext() != nullptr) { // Loop until next node is null
+        //    currentNode = currentNode->getNext();
+        //}
+        //Tail = currentNode;
+        //currentNode->setNext(newNode);
+
+        Tail->setNext(newNode);
+        Tail = newNode;
     }
 
     numNodes++;
@@ -82,8 +85,7 @@ void List<T>::appendNode(T guest) // Bottom of list
 */
 template<typename T>
 void List<T>::pushNode(T newGuest) { // Top of list
-    Data<T> *nodePtr;
-    nodePtr = new Data<T>(newGuest);
+    Data<T> *nodePtr = new Data<T>(newGuest);
     nodePtr->setValue(newGuest);
 
     if (!Head) {
